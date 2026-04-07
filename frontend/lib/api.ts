@@ -4,7 +4,7 @@ export const API_BASE =
 
 export const APP_BASE =
   typeof window === 'undefined'
-    ? 'https://events-booking-ivpa.vercel.app'
+    ? 'https://events-booking-7udo.vercel.app'
     : window.location.origin;
 
 export const WS_BASE = API_BASE
@@ -12,12 +12,11 @@ export const WS_BASE = API_BASE
   .replace(/^http:\/\//, 'ws://')
   .replace(/^https:\/\//, 'wss://');
 
-// Keep Render backend alive — ping every 4 minutes to prevent spin-down
+// Keep Render backend alive — ping every 10 minutes to prevent spin-down
 if (typeof window !== 'undefined') {
-  const BACKEND_ROOT = API_BASE.replace(/\/api\/user$/, '');
-  const ping = () => fetch(`${BACKEND_ROOT}/health/`).catch(() => {});
+  const ping = () => fetch(`${API_BASE}/event-types/`).catch(() => {});
   ping();
-  setInterval(ping, 4 * 60 * 1000);
+  setInterval(ping, 10 * 60 * 1000);
 }
 
 async function refreshAccessToken(tokenKey: 'clientToken' | 'organizerToken'): Promise<string | null> {
